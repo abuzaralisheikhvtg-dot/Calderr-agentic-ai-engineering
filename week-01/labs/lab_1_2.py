@@ -12,12 +12,32 @@ FACTS_DB = {
     "internship": "The CalderR internship program focuses on agentic systems."
 }
 
-def search_db(query):
+"""def search_db(query):
     query = query.lower()
     for key, fact in FACTS_DB.items():
         if key in query:
             return fact
-    return "No information found in database."
+    return "No information found in database."""
+
+def search_db(query: str) -> str:
+    # Convert query to lowercase to prevent capitalization bugs
+    q = query.lower()
+    
+    # A smart mock database dictionary
+    mock_data = {
+        "ceo": "The CEO of CalderR is Alex Calder, Age: 34.",
+        "calderr ceo": "The CEO of CalderR is Alex Calder, Age: 34.",
+        "leadership": "CalderR is led by Alex Calder (CEO, Age: 34) and their core AI research team.",
+        "alex calder": "Alex Calder is the CEO of CalderR, aged 34 years old."
+    }
+    
+    # Check if any of our keywords are hidden inside the agent's search query
+    for key in mock_data:
+        if key in q:
+            return mock_data[key]
+            
+    # Default fallback if it searches for something completely random
+    return "CalderR is an elite Agentic AI engineering firm."
 
 def calculate(expression):
     try:
@@ -75,7 +95,7 @@ def main():
     # ReAct Loop (max 5 iterations to prevent infinite loops)
     for step in range(5):
         response = client.chat.completions.create(
-            model="llama-3-8b-8192",
+            model="llama-3.1-8b-instant",
             messages=messages,
             temperature=0.0 # Zero temperature is crucial for reliable tool calling formatting
         )
