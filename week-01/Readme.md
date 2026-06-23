@@ -38,16 +38,29 @@ This directory contains my completed daily labs, core assessments, and project s
 *Answer:* The traditional chatbot works on the one-turn input-output approach. It takes into account the user’s context, sends the same through the LLM for processing, and comes up with an output right away in the form of text. In the case of an Agentic loop, there is an execution process involving ReAct, which serves as the reasoning engine. The model evaluates the problem and picks some external tools (API, DB), analyzes the execution, and updates its plan in a number of hidden steps.
 
 ### 2. What is the 'context window' and why does it matter for agentic systems?
-*Answer:* 
+*Answer:* ReAct consists of making the LLM go through an iterative process of:
+Thought ➔ Action ➔ Observation
+
+Thought: The model understands the current situation and plans its next action.
+
+Action: The model prepares a structured prompt in order to use the external tool.
+
+Observation: The execution script invokes the tool and feeds the raw world data to the model.
+
+That is extremely effective, because it makes complicated tasks modular and provides the LLM with up-to-date information, greatly cutting down hallucinations.
 
 ### 3. Describe the ReAct pattern. When would you use it versus a simple chain?
-*Answer:* 
+*Answer:* Context Window refers to the total number of tokens that the language model can process during an API request, including both the user prompt and the answer. Once the window is reached, the result is called context truncation, where the previous part of the conversation is simply truncated from memory. The agent either loses its memory, forgets instructions, ignores system prompts, or fails outright due to out-of-memory errors in the API request.
 
 ### 4. What is LCEL in LangChain? Write a 5-line example of a chain using the pipe operator.
-*Answer:* 
+*Answer:* The temperature regulates how random the selection of tokens is by the model.
+
+Temperature = 0.0: Makes the model fully deterministic and forces it to always select the most probable token. Required when calling tools, dealing with structured responses (JSON/Regex parsing), or mathematical pipelines.
+
+Temperature = 0.7+: Smoothes the probability curve, which allows selecting less probable tokens. Best for creative writing, brainstorming assistants, and multiple personas generation.
 
 ### 5. Explain the role of temperature in LLM sampling. When would you set it to 0?
-*Answer:* 
+*Answer:* The tokens are the smallest units of text (average length 4 characters or 0.75 words) that an LLM consumes and generates. Monitoring the number of tokens is important during production mainly because of the following reasons: Cost reduction (as the API of LLMs charges for the 1k/1M input/output tokens) and Reducing latency (as more number of tokens increases the response time).
 
 ### 6. Design a simple agent architecture for a customer support chatbot. What tools would it need?
-*Answer:*
+*Answer:* The lack of the need for elaborate orchestration frameworks makes the engineer aware of the basics of state management, prompt boundaries, stop sequences, and handling errors of the API interface. Without that basic understanding, it will be impossible to debug or customize production agents failures, as the abstraction framework would eventually fail or cause delays.
