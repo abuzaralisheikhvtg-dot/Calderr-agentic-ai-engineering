@@ -35,7 +35,7 @@ This directory contains my completed daily labs, core assessments, and project s
 ## Weekly Self-Assessment Answers
 
 ### 1. Explain the difference between a language model and an agent. What capabilities does an agent add?
-*Answer:* 
+*Answer:* The traditional chatbot works on the one-turn input-output approach. It takes into account the user’s context, sends the same through the LLM for processing, and comes up with an output right away in the form of text. In the case of an Agentic loop, there is an execution process involving ReAct, which serves as the reasoning engine. The model evaluates the problem and picks some external tools (API, DB), analyzes the execution, and updates its plan in a number of hidden steps.
 
 ### 2. What is the 'context window' and why does it matter for agentic systems?
 *Answer:* 
