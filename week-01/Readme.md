@@ -7,21 +7,21 @@ This directory contains my completed daily labs, core assessments, and project s
 
 ---
 
-## 🛠️ Weekly Projects (Category 1 & 2 Submissions)
+## Weekly Projects (Category 1 & 2 Submissions)
 
-### 🔹 Intermediate Project: [To Be Chosen]
+### Intermediate Project: [To Be Chosen]
 * **Description:** *Pending implementation*
 * **Key Skills:** *Pending*
 * **How to Run:** *Pending*
 
-### 🔹 Production Project: [To Be Chosen]
+### Production Project: [To Be Chosen]
 * **Description:** *Pending implementation*
 * **Key Skills:** *Pending*
 * **How to Run:** *Pending*
 
 ---
 
-## 🧪 Completed Labs Checklist
+## Completed Labs Checklist
 
 - [ ] **Lab 1.1: Your First Groq Agent**
   - Python CLI chatbot powered by `llama-3-8b` with continuous conversation memory, live token tracking, and custom `/clear` and `/exit` commands.
@@ -32,7 +32,7 @@ This directory contains my completed daily labs, core assessments, and project s
 
 ---
 
-## 📝 Weekly Self-Assessment Answers
+## Weekly Self-Assessment Answers
 
 ### 1. Explain the difference between a language model and an agent. What capabilities does an agent add?
 *Answer:* 
