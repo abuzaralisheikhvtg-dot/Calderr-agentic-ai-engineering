@@ -33,7 +33,7 @@ def main():
         print(f"Testing Persona {i}/5...")
         
         response = client.chat.completions.create(
-            model="llama-3-8b-8192",
+            model="llama-3.1-8b-instant",
             messages=[
                 {"role": "system", "content": prompt},
                 {"role": "user", "content": TEST_QUERY}
