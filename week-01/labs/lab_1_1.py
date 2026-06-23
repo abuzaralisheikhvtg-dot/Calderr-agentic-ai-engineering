@@ -1,11 +1,24 @@
 import os
 import sys
+from pathlib import Path
 from groq import Groq
-from dotenv import load_module
+from dotenv import load_dotenv
 
 load_dotenv()
 
 def main():
+    if not os.getenv("GROQ_API_KEY"):
+        print("Error: GROQ_API_KEY not found.")
+        print(f"Looked at: {Path('.').resolve() / '.env'}")
+        print(f"And looked at: {Path('.').resolve().parent / '.env'}")
+        sys.exit(1)
+
+    try:
+        client = Groq()
+    except Exception as e:
+        print(f"Failed to initialize Groq client: {e}")
+        sys.exit(1)
+
     try:
         client = Groq()
     except Exception as e:
@@ -23,7 +36,7 @@ def main():
 
     while True:
         try:
-            user_input = input("👤 You: ").strip()
+            user_input = input("You: ").strip()
             if not user_input:
                 continue
                 
@@ -39,7 +52,7 @@ def main():
             history.append({"role": "user", "content": user_input})
 
             response = client.chat.completions.create(
-                model="llama-3-8b-8192",
+                model="llama-3.1-8b-instant",
                 messages=history,
                 temperature=0.7
             )
