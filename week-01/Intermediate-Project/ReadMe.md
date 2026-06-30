@@ -1,124 +1,196 @@
-Automated Prompt Engineering Evaluator 🚀
+# 🚀 Automated Prompt Engineering Evaluator
 
-An engineering-grade, quantitative testing pipeline that programmatically evaluates, benchmarks, and scores different LLM system prompt variations. This framework moves prompt engineering from a subjective "guess-and-check" process to a deterministic, metrics-driven pipeline.
+An engineering-grade, quantitative testing pipeline that programmatically evaluates, benchmarks, and scores different LLM system prompt variations.
 
-📋 Table of Contents
+Instead of relying on subjective "guess-and-check" prompt engineering, this project introduces a deterministic, metrics-driven evaluation framework that measures prompt quality using automated scoring.
 
-Core Architecture
+---
 
-Evaluation Metrics & Scoring
+## 📋 Table of Contents
 
-Setup & Installation Instructions
+- [Core Architecture](#-core-architecture)
+- [Evaluation Metrics & Scoring](#-evaluation-metrics--scoring)
+- [Setup & Installation](#-setup--installation)
+- [How to Run](#-how-to-run)
+- [Sample Results](#-sample-results)
+- [Key Takeaways](#-key-takeaways)
 
-How to Run
+---
 
-Analysis of Results
+# 🧠 Core Architecture
 
-🧠 Core Architecture
+When deploying Large Language Models (LLMs) into production, even small prompt changes can dramatically affect reliability. One common failure is generating responses that break downstream JSON parsers.
 
-When deploying Large Language Models (LLMs) to production pipelines, slight variations in prompts can result in dramatic failures (such as syntax errors during JSON parsing). This project sets up an automated testing suite using the Groq API and the state-of-the-art llama-3.1-8b-instant model.
+This project builds an automated evaluation pipeline using:
 
-The evaluator splits the testing process into four architectural pillars:
+- **Groq API**
+- **Llama 3.1 8B Instant**
+- **Python**
+- **Deterministic evaluation metrics**
 
-The Prompts: Two distinct system prompts (Variant A is basic, Variant B is highly structured and defensive).
+The framework consists of four architectural components.
 
-The Dataset: A static test set with raw, unformatted messages containing different extraction edge cases.
+## 1. Prompt Variants
 
-The Grader Engine: Programmatic assertion metrics that run deterministic Python checks on the raw string output.
+Two different system prompts are evaluated.
 
-The Dashboard Reporter: Aggregates scores and outputs a readable comparative performance report.
+- **Variant A** — Simple, minimal instructions.
+- **Variant B** — Highly structured, defensive prompt engineering.
 
-📊 Evaluation Metrics & Scoring
+---
 
-Each output is evaluated out of a maximum of 100 points based on strict criteria:
+## 2. Evaluation Dataset
 
-Metric
+A fixed dataset containing raw customer messages with various extraction edge cases.
 
-Score Weight
+Examples include:
 
-Description
+- Missing information
+- Multiple emails
+- Ambiguous issues
+- Irregular formatting
 
-JSON Parseability
+---
 
-50 pts
+## 3. Grading Engine
 
-Verifies if the output string can be parsed successfully by Python's native json.loads().
+Each model response is automatically validated using deterministic Python assertions.
 
-Schema Completeness
+No human judgment is required.
 
-30 pts
+---
 
-Assures all expected keys (name, email, issue) exist inside the parsed payload.
+## 4. Dashboard Reporter
 
-No Markdown Blocks
+The final stage aggregates all scores and produces a side-by-side comparison of each prompt variant.
 
-20 pts
+---
 
-Penalizes the model if it wraps JSON in markdown code blocks (```json ... ```), which breaks automated parsing pipelines.
+# 📊 Evaluation Metrics & Scoring
 
-🛠️ Setup & Installation Instructions
+Every generated response is scored out of **100 points**.
 
-Prerequisites
+| Metric | Weight | Description |
+|---------|--------|-------------|
+| JSON Parseability | **50 pts** | Verifies that the output can be parsed successfully using Python's `json.loads()` |
+| Schema Completeness | **30 pts** | Confirms that all required fields (`name`, `email`, `issue`) exist |
+| No Markdown Blocks | **20 pts** | Penalizes outputs wrapped inside ```json ... ``` code fences |
 
-Python 3.10 or higher installed.
+---
 
-An active Groq API Key (Get one at console.groq.com).
+# 🛠️ Setup & Installation
 
-Step 1: Clone and Navigate
+## Prerequisites
 
-Ensure you are in the correct sub-directory inside your repository:
+- Python **3.10+**
+- A valid **Groq API Key**
 
+You can generate one from:
+
+https://console.groq.com
+
+---
+
+## Step 1 — Navigate to the Project
+
+```bash
 cd week-01
+```
 
+---
 
-Step 2: Set Up Virtual Environment
+## Step 2 — Activate Virtual Environment
 
-Ensure your virtual environment is active. If not, spin it up and activate it:
+### Windows (PowerShell)
 
-# Windows PowerShell
+```powershell
 .\venv\Scripts\activate
+```
 
-# Mac/Linux
+### macOS / Linux
+
+```bash
 source venv/bin/activate
+```
 
+---
 
-Step 3: Install Dependencies
+## Step 3 — Install Dependencies
 
-Install the required Groq and environment loading libraries:
-
+```bash
 pip install -r requirements.txt
+```
 
+---
 
-Step 4: Configure Environment Variables
+## Step 4 — Configure Environment Variables
 
-Create a .env file in the root of your project or inside the week-01 directory:
+Create a `.env` file inside the project root.
 
-GROQ_API_KEY=gsk_your_actual_groq_key_here
+```env
+GROQ_API_KEY=gsk_your_actual_api_key_here
+```
 
+---
 
-🏃‍♂️ How to Run
+# 🏃‍♂️ How to Run
 
-Execute the pipeline runner from your terminal:
+Execute the evaluation pipeline.
 
+```bash
 python labs/project_1_intermediate.py
+```
 
+---
 
-📈 Analysis of Results
+# 📈 Sample Results
 
-Upon completion, you will see a console dashboard showing a clear comparison of the two prompt strategies:
+After execution, you'll see a dashboard similar to:
 
+```text
 ============================================================
 PROMPT EVALUATION METRICS DASHBOARD
 ============================================================
+
 📊 Prompt Variant A Average Score: 26.67 / 100
+
 📊 Prompt Variant B Average Score: 100.00 / 100
+
 ------------------------------------------------------------
+```
 
+---
 
-Key Takeaways
+# 🎯 Key Takeaways
 
-Defensive Design Matters: Variant A (loose styling) fails because the LLM naturally tries to hold a conversation, inserting markdown wrappers and greetings that crash parsers.
+### Defensive Prompt Design
 
-Deterministic Token Selection: Running the evaluation at temperature=0.0 ensures absolute repeatability across test runs.
+Variant A performs poorly because the model naturally adds greetings, explanations, or Markdown formatting that break downstream parsers.
 
-Graceful Fallbacks: Specifying fallback strategies inside the system instructions (such as returning NONE for issues) guarantees complete schema consistency even when data is missing.
+---
+
+### Deterministic Generation
+
+Using **temperature = 0.0** ensures identical outputs across repeated evaluation runs, making benchmarking reproducible.
+
+---
+
+### Schema Reliability
+
+Embedding fallback instructions (such as returning `"NONE"` for missing values) guarantees consistent JSON schemas even when user input is incomplete.
+
+---
+
+# 📌 Technologies Used
+
+- Python
+- Groq API
+- Llama 3.1 8B Instant
+- JSON
+- python-dotenv
+
+---
+
+# 📄 License
+
+This project is intended for educational and prompt engineering experimentation.
